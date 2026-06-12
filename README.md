@@ -75,3 +75,15 @@ no optimistic update for create/delete
 no Show loading and error states with retries
 
 started to have headaches at 19:00. not feeling to good... but i think everything will be ok :).
+
+## trade-offs and assumptions
+
+sorry my hand really hurts. i'll let you know later.
+
+## images:
+
+![1781284060660](image/README/1781284060660.png)
+
+![1781284076757](image/README/1781284076757.png)
+
+![1781284096168](image/README/1781284096168.png)
