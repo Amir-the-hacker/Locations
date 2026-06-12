@@ -21,15 +21,18 @@ export class LocationsService {
     return this.locationModel.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} location`;
+  async update(id: string, updateLocationDto: UpdateLocationDto) {
+    const updatedLocation = await this.locationModel
+      .findByIdAndUpdate(id, updateLocationDto, { new: true })
+      .exec();
+
+    return updatedLocation;
   }
 
-  update(id: number, updateLocationDto: UpdateLocationDto) {
-    return `This action updates a #${id} location`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} location`;
+  async remove(id: number) {
+    const deletedLocation = await this.locationModel
+      .findByIdAndDelete(id, { new: true })
+      .exec();
+    return deletedLocation;
   }
 }
