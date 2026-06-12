@@ -29,7 +29,7 @@ export class LocationsService {
     return updatedLocation;
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     const deletedLocation = await this.locationModel
       .findByIdAndDelete(id, { new: true })
       .exec();
