@@ -38,7 +38,7 @@ export const HomePage = () => {
           </Grid>
 
           <Grid size={{ xs: 12, md: 4 }}>
-            <LocationList />
+            <LocationList locations={data?.data} />
           </Grid>
         </Grid>
       </Container>

@@ -6,46 +6,40 @@ import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import Divider from '@mui/material/Divider'
 import InboxIcon from '@mui/icons-material/Inbox'
-import DraftsIcon from '@mui/icons-material/Drafts'
+import type { LocationDto } from '../api/models'
 
-export const LocationList = () => {
+interface LocationListProps {
+  locations?: LocationDto[]
+}
+
+export const LocationList = ({ locations }: LocationListProps) => {
   return (
-    <Box sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+    <Box sx={{ width: '100%', bgcolor: 'gray' }}>
       <nav aria-label="main mailbox folders">
         <List>
-          <ListItem disablePadding>
+          {locations ? (
+            locations.map((location) => (
+              <ListItem disablePadding>
+                <ListItemButton key={location.id}>
+                  <ListItemIcon></ListItemIcon>
+                  <ListItemText
+                    primary={location.name}
+                    secondary={location.address}
+                  />
+                </ListItemButton>{' '}
+              </ListItem>
+            ))
+          ) : (
             <ListItemButton>
               <ListItemIcon>
                 <InboxIcon />
               </ListItemIcon>
-              <ListItemText primary="Inbox" />
+              <ListItemText primary="there are no points" />
             </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                <DraftsIcon />
-              </ListItemIcon>
-              <ListItemText primary="Drafts" />
-            </ListItemButton>
-          </ListItem>
+          )}
         </List>
       </nav>
       <Divider />
-      <nav aria-label="secondary mailbox folders">
-        <List>
-          <ListItem disablePadding>
-            <ListItemButton>
-              <ListItemText primary="Trash" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton component="a" href="#simple-list">
-              <ListItemText primary="Spam" />
-            </ListItemButton>
-          </ListItem>
-        </List>
-      </nav>
     </Box>
   )
 }

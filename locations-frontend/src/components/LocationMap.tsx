@@ -14,6 +14,7 @@ import VectorSource from 'ol/source/Vector.js'
 import Style from 'ol/style/Style.js'
 import Circle from 'ol/style/Circle.js'
 import Fill from 'ol/style/Fill'
+
 interface LocationMapProps {
   locations?: LocationDto[]
 }
