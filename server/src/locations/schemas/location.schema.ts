@@ -20,7 +20,13 @@ export type LocationDocument = HydratedDocument<Location>;
   },
 })
 export class Location {
-  @Prop({ type: String, required: true, index: true })
+  @Prop({
+    type: String,
+    required: true,
+    index: true,
+    minlength: 2,
+    maxlength: 60,
+  })
   name: string;
 
   @Prop({
@@ -43,10 +49,10 @@ export class Location {
     lat: number;
   };
 
-  @Prop({ type: String, required: false, index: true })
+  @Prop({ type: String, required: false, index: true, maxlength: 120 })
   address?: string;
 
-  @Prop({ type: String, required: false })
+  @Prop({ type: String, required: false, maxLength: 500 })
   notes?: string;
 }
 
