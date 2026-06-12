@@ -11,12 +11,15 @@ import { InjectModel } from '@nestjs/mongoose';
 import { isValidObjectId, Model } from 'mongoose';
 import { Location, LocationDocument } from './schemas/location.schema';
 import { LOCATION_CATEGORIES } from './schemas/location.schema';
+import { HttpService } from '@nestjs/axios';
+import { CoordinatesDto } from './dto/coordinates.dto';
 
 @Injectable()
 export class LocationsService {
   constructor(
     @InjectModel(Location.name)
     private locationModel: Model<LocationDocument>,
+    private readonly httpService: HttpService,
   ) {}
 
   async create(createLocationDto: CreateLocationDto): Promise<Location> {
@@ -95,5 +98,11 @@ export class LocationsService {
         'Oops! something went wrong. Please try again later',
       );
     }
+  }
+
+  async coordinatesToAddress(coordinates: CoordinatesDto) {
+    return this.httpService.get(
+      `https://nominatim.openstreetmap.org/reverse?lat=${coordinates[0]}&lon=${coordinates[1]}&format=json`,
+    );
   }
 }
