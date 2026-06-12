@@ -4,7 +4,8 @@ import { AppService } from './app.service';
 import { LocationsModule } from './locations/locations.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-
+import { APP_PIPE, APP_INTERCEPTOR } from '@nestjs/core';
+import { ZodValidationPipe, ZodSerializerInterceptor } from 'nestjs-zod';
 @Module({
   imports: [
     LocationsModule,
@@ -21,6 +22,16 @@ import { MongooseModule } from '@nestjs/mongoose';
     }),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_PIPE,
+      useClass: ZodValidationPipe,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ZodSerializerInterceptor,
+    },
+  ],
 })
 export class AppModule {}
