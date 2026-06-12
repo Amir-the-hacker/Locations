@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { LocationsService } from './locations.service';
 import { CreateLocationDto } from './dto/create-location.dto';
@@ -13,6 +14,7 @@ import { UpdateLocationDto } from './dto/update-location.dto';
 import { Location } from './schemas/location.schema';
 import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { LocationDto } from './dto/location.dto';
+import { QueryFindAllDto } from './dto/queryFindAll.dto';
 
 @ApiTags('locations')
 @Controller('locations')
@@ -29,8 +31,12 @@ export class LocationsController {
 
   @Get()
   @ApiOkResponse({ type: LocationDto, isArray: true })
-  async findAll() {
-    return this.locationsService.findAll();
+  async findAll(@Query() query: QueryFindAllDto) {
+    return this.locationsService.findAll(
+      query.skip,
+      query.limit,
+      query.category,
+    );
   }
 
   @Patch(':id')

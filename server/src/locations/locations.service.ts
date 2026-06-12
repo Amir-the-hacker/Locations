@@ -10,6 +10,7 @@ import { UpdateLocationDto } from './dto/update-location.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { isValidObjectId, Model } from 'mongoose';
 import { Location, LocationDocument } from './schemas/location.schema';
+import { LOCATION_CATEGORIES } from './schemas/location.schema';
 
 @Injectable()
 export class LocationsService {
@@ -32,9 +33,16 @@ export class LocationsService {
     }
   }
 
-  async findAll(): Promise<Location[]> {
+  async findAll(
+    skip?: number,
+    limit?: number,
+    category?: (typeof LOCATION_CATEGORIES)[number],
+  ): Promise<Location[]> {
     try {
-      return this.locationModel.find().exec();
+      const query = this.locationModel.find(category && { category: category });
+      if (skip) query.skip(skip);
+      if (limit) query.limit(limit);
+      return await query.exec();
     } catch (error) {
       if (error instanceof HttpException) {
         throw error;
