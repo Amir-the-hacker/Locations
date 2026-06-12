@@ -1,11 +1,15 @@
+import { useState } from 'react'
 import { Container, Grid } from '@mui/material'
 import { LocationList } from './LocationList'
+import { UpdateLocationModal } from './UpdateLocationModal'
 import { useLocationsControllerFindAll } from '../api/endpoints/locations/locations'
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import { LocationMap } from './LocationMap'
+import type { LocationDto } from '../api/models'
+
 export const HomePage = () => {
   const { data } = useLocationsControllerFindAll(
     {},
@@ -15,6 +19,22 @@ export const HomePage = () => {
       },
     }
   )
+
+  const [selectedLocation, setSelectedLocation] = useState<LocationDto | null>(
+    null
+  )
+  const [updateModalOpen, setUpdateModalOpen] = useState(false)
+
+  const handleSelectLocation = (id: string) => {
+    const found = data?.data?.find((loc) => loc.id === id) ?? null
+    setSelectedLocation(found)
+    setUpdateModalOpen(true)
+  }
+
+  const handleCloseModal = () => {
+    setUpdateModalOpen(false)
+    setSelectedLocation(null)
+  }
 
   return (
     <>
@@ -34,10 +54,19 @@ export const HomePage = () => {
           </Grid>
 
           <Grid size={{ xs: 12, md: 4 }} sx={{ display: 'flex' }}>
-            <LocationList locations={data?.data} />
+            <LocationList
+              locations={data?.data}
+              onSelectLocation={handleSelectLocation}
+            />
           </Grid>
         </Grid>
       </Container>
+
+      <UpdateLocationModal
+        open={updateModalOpen}
+        location={selectedLocation}
+        onClose={handleCloseModal}
+      />
     </>
   )
 }
