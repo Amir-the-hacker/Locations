@@ -80,7 +80,7 @@ started to have headaches at 19:00. not feeling to good... but i think everythin
 
 sorry my hand really hurts. i'll let you know later. but at least cleanup on front and back.
 
-## images:
+## Images:
 
 ![1781284060660](image/README/1781284060660.png)
 
