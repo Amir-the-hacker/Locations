@@ -14,6 +14,10 @@ Install the latest version of Docker on your computer. Run the MongoDB server fr
 
 docker compose up -d
 
+Stop the database with (run in root directory):
+
+docker compose down
+
 ### 2. Backend
 
 Navigate to the server directory, install dependencies, and start the development server:
@@ -22,6 +26,9 @@ cd server
 npm i
 npm run start:dev
 
+stop with:
+press Ctrl + C in terminal
+
 ### 3. Frontend
 
 Navigate to the locations-frontend directory, install dependencies, and start the application:
@@ -29,6 +36,9 @@ Navigate to the locations-frontend directory, install dependencies, and start th
 cd locations-frontend
 npm i
 npm run dev
+
+stop with:
+press Ctrl + C in terminal
 
 ## Agenda (before starting to work on project)
 
@@ -64,4 +74,4 @@ no clicking on map for adding new location. only manually.
 no optimistic update for create/delete
 no Show loading and error states with retries
 
-started to have headaches at 19:00. not feeling to good...
+started to have headaches at 19:00. not feeling to good... but i think everything will be ok :).
