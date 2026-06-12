@@ -9,6 +9,7 @@ export default defineConfig({
         output: {
             mode: "tags-split",
             client: "react-query",
+            httpClient: "axios",
             target: "src/api/endpoints",
             schemas: "src/api/models",
         },

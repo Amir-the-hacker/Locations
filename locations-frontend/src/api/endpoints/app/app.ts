@@ -20,48 +20,26 @@ import type {
   UseQueryResult
 } from '@tanstack/react-query';
 
+import * as axios from 'axios';
+import type {
+  AxiosError,
+  AxiosRequestConfig,
+  AxiosResponse
+} from 'axios';
 
 
 
 
-export type appControllerGetHelloResponse200 = {
-  data: void
-  status: 200
-}
 
-export type appControllerGetHelloResponseSuccess = (appControllerGetHelloResponse200) & {
-  headers: Headers;
-};
-;
-
-export type appControllerGetHelloResponse = (appControllerGetHelloResponseSuccess)
-
-export const getAppControllerGetHelloUrl = () => {
+export const appControllerGetHello = (
+     options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<void>> => {
 
 
-
-
-  return `/`
-}
-
-export const appControllerGetHello = async ( options?: RequestInit): Promise<appControllerGetHelloResponse> => {
-
-  const res = await fetch(getAppControllerGetHelloUrl(),
-  {
-    ...options,
-    method: 'GET'
-
-
+    return axios.default.get(
+      `/`,options
+    );
   }
-)
-
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
-  const data: appControllerGetHelloResponse['data'] = body ? JSON.parse(body) : undefined
-  return { data, status: res.status, headers: res.headers } as appControllerGetHelloResponse
-}
-
 
 
 
@@ -73,16 +51,16 @@ export const getAppControllerGetHelloQueryKey = () => {
     }
 
 
-export const getAppControllerGetHelloQueryOptions = <TData = Awaited<ReturnType<typeof appControllerGetHello>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof appControllerGetHello>>, TError, TData>>, fetch?: RequestInit}
+export const getAppControllerGetHelloQueryOptions = <TData = Awaited<ReturnType<typeof appControllerGetHello>>, TError = AxiosError<unknown>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof appControllerGetHello>>, TError, TData>>, axios?: AxiosRequestConfig}
 ) => {
 
-const {query: queryOptions, fetch: fetchOptions} = options ?? {};
+const {query: queryOptions, axios: axiosOptions} = options ?? {};
 
   const queryKey =  queryOptions?.queryKey ?? getAppControllerGetHelloQueryKey();
 
 
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof appControllerGetHello>>> = ({ signal }) => appControllerGetHello({ signal, ...fetchOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof appControllerGetHello>>> = ({ signal }) => appControllerGetHello({ signal, ...axiosOptions });
 
 
 
@@ -92,36 +70,36 @@ const {query: queryOptions, fetch: fetchOptions} = options ?? {};
 }
 
 export type AppControllerGetHelloQueryResult = NonNullable<Awaited<ReturnType<typeof appControllerGetHello>>>
-export type AppControllerGetHelloQueryError = unknown
+export type AppControllerGetHelloQueryError = AxiosError<unknown>
 
 
-export function useAppControllerGetHello<TData = Awaited<ReturnType<typeof appControllerGetHello>>, TError = unknown>(
+export function useAppControllerGetHello<TData = Awaited<ReturnType<typeof appControllerGetHello>>, TError = AxiosError<unknown>>(
   options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof appControllerGetHello>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof appControllerGetHello>>,
           TError,
           Awaited<ReturnType<typeof appControllerGetHello>>
         > , 'initialData'
-      >, fetch?: RequestInit}
+      >, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useAppControllerGetHello<TData = Awaited<ReturnType<typeof appControllerGetHello>>, TError = unknown>(
+export function useAppControllerGetHello<TData = Awaited<ReturnType<typeof appControllerGetHello>>, TError = AxiosError<unknown>>(
   options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof appControllerGetHello>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof appControllerGetHello>>,
           TError,
           Awaited<ReturnType<typeof appControllerGetHello>>
         > , 'initialData'
-      >, fetch?: RequestInit}
+      >, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useAppControllerGetHello<TData = Awaited<ReturnType<typeof appControllerGetHello>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof appControllerGetHello>>, TError, TData>>, fetch?: RequestInit}
+export function useAppControllerGetHello<TData = Awaited<ReturnType<typeof appControllerGetHello>>, TError = AxiosError<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof appControllerGetHello>>, TError, TData>>, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
-export function useAppControllerGetHello<TData = Awaited<ReturnType<typeof appControllerGetHello>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof appControllerGetHello>>, TError, TData>>, fetch?: RequestInit}
+export function useAppControllerGetHello<TData = Awaited<ReturnType<typeof appControllerGetHello>>, TError = AxiosError<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof appControllerGetHello>>, TError, TData>>, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 

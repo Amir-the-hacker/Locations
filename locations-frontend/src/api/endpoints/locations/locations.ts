@@ -24,6 +24,13 @@ import type {
   UseQueryResult
 } from '@tanstack/react-query';
 
+import * as axios from 'axios';
+import type {
+  AxiosError,
+  AxiosRequestConfig,
+  AxiosResponse
+} from 'axios';
+
 import type {
   CreateLocationDto,
   LocationDto,
@@ -35,57 +42,29 @@ import type {
 
 
 
-export type locationsControllerCreateResponse201 = {
-  data: LocationDto
-  status: 201
-}
-
-export type locationsControllerCreateResponseSuccess = (locationsControllerCreateResponse201) & {
-  headers: Headers;
-};
-;
-
-export type locationsControllerCreateResponse = (locationsControllerCreateResponseSuccess)
-
-export const getLocationsControllerCreateUrl = () => {
+export const locationsControllerCreate = (
+    createLocationDto: CreateLocationDto, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<LocationDto>> => {
 
 
-
-
-  return `/locations`
-}
-
-export const locationsControllerCreate = async (createLocationDto: CreateLocationDto, options?: RequestInit): Promise<locationsControllerCreateResponse> => {
-
-  const res = await fetch(getLocationsControllerCreateUrl(),
-  {
-    ...options,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(createLocationDto)
+    return axios.default.post(
+      `/locations`,
+      createLocationDto,options
+    );
   }
-)
-
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
-  const data: locationsControllerCreateResponse['data'] = body ? JSON.parse(body) : {}
-  return { data, status: res.status, headers: res.headers } as locationsControllerCreateResponse
-}
 
 
 
-
-export const getLocationsControllerCreateMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof locationsControllerCreate>>, TError,{data: CreateLocationDto}, TContext>, fetch?: RequestInit}
+export const getLocationsControllerCreateMutationOptions = <TError = AxiosError<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof locationsControllerCreate>>, TError,{data: CreateLocationDto}, TContext>, axios?: AxiosRequestConfig}
 ): UseMutationOptions<Awaited<ReturnType<typeof locationsControllerCreate>>, TError,{data: CreateLocationDto}, TContext> => {
 
 const mutationKey = ['locationsControllerCreate'];
-const {mutation: mutationOptions, fetch: fetchOptions} = options ?
+const {mutation: mutationOptions, axios: axiosOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
       : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, fetch: undefined};
+      : {mutation: { mutationKey, }, axios: undefined};
 
 
 
@@ -93,7 +72,7 @@ const {mutation: mutationOptions, fetch: fetchOptions} = options ?
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof locationsControllerCreate>>, {data: CreateLocationDto}> = (props) => {
           const {data} = props ?? {};
 
-          return  locationsControllerCreate(data,fetchOptions)
+          return  locationsControllerCreate(data,axiosOptions)
         }
 
 
@@ -105,10 +84,10 @@ const {mutation: mutationOptions, fetch: fetchOptions} = options ?
 
     export type LocationsControllerCreateMutationResult = NonNullable<Awaited<ReturnType<typeof locationsControllerCreate>>>
     export type LocationsControllerCreateMutationBody = CreateLocationDto
-    export type LocationsControllerCreateMutationError = unknown
+    export type LocationsControllerCreateMutationError = AxiosError<unknown>
 
-    export const useLocationsControllerCreate = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof locationsControllerCreate>>, TError,{data: CreateLocationDto}, TContext>, fetch?: RequestInit}
+    export const useLocationsControllerCreate = <TError = AxiosError<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof locationsControllerCreate>>, TError,{data: CreateLocationDto}, TContext>, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof locationsControllerCreate>>,
         TError,
@@ -117,51 +96,17 @@ const {mutation: mutationOptions, fetch: fetchOptions} = options ?
       > => {
       return useMutation(getLocationsControllerCreateMutationOptions(options), queryClient);
     }
-    export type locationsControllerFindAllResponse200 = {
-  data: LocationDto[]
-  status: 200
-}
+    export const locationsControllerFindAll = (
+    params?: LocationsControllerFindAllParams, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<LocationDto[]>> => {
 
-export type locationsControllerFindAllResponseSuccess = (locationsControllerFindAllResponse200) & {
-  headers: Headers;
-};
-;
 
-export type locationsControllerFindAllResponse = (locationsControllerFindAllResponseSuccess)
-
-export const getLocationsControllerFindAllUrl = (params?: LocationsControllerFindAllParams,) => {
-  const normalizedParams = new URLSearchParams();
-
-  Object.entries(params || {}).forEach(([key, value]) => {
-
-    if (value !== undefined) {
-      normalizedParams.append(key, value === null ? 'null' : String(value))
-    }
-  });
-
-  const stringifiedParams = normalizedParams.toString();
-
-  return stringifiedParams.length > 0 ? `/locations?${stringifiedParams}` : `/locations`
-}
-
-export const locationsControllerFindAll = async (params?: LocationsControllerFindAllParams, options?: RequestInit): Promise<locationsControllerFindAllResponse> => {
-
-  const res = await fetch(getLocationsControllerFindAllUrl(params),
-  {
+    return axios.default.get(
+      `/locations`,{
     ...options,
-    method: 'GET'
-
-
+        params: {...params, ...options?.params},}
+    );
   }
-)
-
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
-  const data: locationsControllerFindAllResponse['data'] = body ? JSON.parse(body) : {}
-  return { data, status: res.status, headers: res.headers } as locationsControllerFindAllResponse
-}
-
 
 
 
@@ -173,16 +118,16 @@ export const getLocationsControllerFindAllQueryKey = (params?: LocationsControll
     }
 
 
-export const getLocationsControllerFindAllQueryOptions = <TData = Awaited<ReturnType<typeof locationsControllerFindAll>>, TError = unknown>(params?: LocationsControllerFindAllParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof locationsControllerFindAll>>, TError, TData>>, fetch?: RequestInit}
+export const getLocationsControllerFindAllQueryOptions = <TData = Awaited<ReturnType<typeof locationsControllerFindAll>>, TError = AxiosError<unknown>>(params?: LocationsControllerFindAllParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof locationsControllerFindAll>>, TError, TData>>, axios?: AxiosRequestConfig}
 ) => {
 
-const {query: queryOptions, fetch: fetchOptions} = options ?? {};
+const {query: queryOptions, axios: axiosOptions} = options ?? {};
 
   const queryKey =  queryOptions?.queryKey ?? getLocationsControllerFindAllQueryKey(params);
 
 
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof locationsControllerFindAll>>> = ({ signal }) => locationsControllerFindAll(params, { signal, ...fetchOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof locationsControllerFindAll>>> = ({ signal }) => locationsControllerFindAll(params, { signal, ...axiosOptions });
 
 
 
@@ -192,36 +137,36 @@ const {query: queryOptions, fetch: fetchOptions} = options ?? {};
 }
 
 export type LocationsControllerFindAllQueryResult = NonNullable<Awaited<ReturnType<typeof locationsControllerFindAll>>>
-export type LocationsControllerFindAllQueryError = unknown
+export type LocationsControllerFindAllQueryError = AxiosError<unknown>
 
 
-export function useLocationsControllerFindAll<TData = Awaited<ReturnType<typeof locationsControllerFindAll>>, TError = unknown>(
+export function useLocationsControllerFindAll<TData = Awaited<ReturnType<typeof locationsControllerFindAll>>, TError = AxiosError<unknown>>(
  params: undefined |  LocationsControllerFindAllParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof locationsControllerFindAll>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof locationsControllerFindAll>>,
           TError,
           Awaited<ReturnType<typeof locationsControllerFindAll>>
         > , 'initialData'
-      >, fetch?: RequestInit}
+      >, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useLocationsControllerFindAll<TData = Awaited<ReturnType<typeof locationsControllerFindAll>>, TError = unknown>(
+export function useLocationsControllerFindAll<TData = Awaited<ReturnType<typeof locationsControllerFindAll>>, TError = AxiosError<unknown>>(
  params?: LocationsControllerFindAllParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof locationsControllerFindAll>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof locationsControllerFindAll>>,
           TError,
           Awaited<ReturnType<typeof locationsControllerFindAll>>
         > , 'initialData'
-      >, fetch?: RequestInit}
+      >, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useLocationsControllerFindAll<TData = Awaited<ReturnType<typeof locationsControllerFindAll>>, TError = unknown>(
- params?: LocationsControllerFindAllParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof locationsControllerFindAll>>, TError, TData>>, fetch?: RequestInit}
+export function useLocationsControllerFindAll<TData = Awaited<ReturnType<typeof locationsControllerFindAll>>, TError = AxiosError<unknown>>(
+ params?: LocationsControllerFindAllParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof locationsControllerFindAll>>, TError, TData>>, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
-export function useLocationsControllerFindAll<TData = Awaited<ReturnType<typeof locationsControllerFindAll>>, TError = unknown>(
- params?: LocationsControllerFindAllParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof locationsControllerFindAll>>, TError, TData>>, fetch?: RequestInit}
+export function useLocationsControllerFindAll<TData = Awaited<ReturnType<typeof locationsControllerFindAll>>, TError = AxiosError<unknown>>(
+ params?: LocationsControllerFindAllParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof locationsControllerFindAll>>, TError, TData>>, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
@@ -237,58 +182,30 @@ export function useLocationsControllerFindAll<TData = Awaited<ReturnType<typeof 
 
 
 
-export type locationsControllerUpdateResponse200 = {
-  data: LocationDto
-  status: 200
-}
-
-export type locationsControllerUpdateResponseSuccess = (locationsControllerUpdateResponse200) & {
-  headers: Headers;
-};
-;
-
-export type locationsControllerUpdateResponse = (locationsControllerUpdateResponseSuccess)
-
-export const getLocationsControllerUpdateUrl = (id: string,) => {
+export const locationsControllerUpdate = (
+    id: string,
+    updateLocationDto: UpdateLocationDto, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<LocationDto>> => {
 
 
-
-
-  return `/locations/${id}`
-}
-
-export const locationsControllerUpdate = async (id: string,
-    updateLocationDto: UpdateLocationDto, options?: RequestInit): Promise<locationsControllerUpdateResponse> => {
-
-  const res = await fetch(getLocationsControllerUpdateUrl(id),
-  {
-    ...options,
-    method: 'PATCH',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(updateLocationDto)
+    return axios.default.patch(
+      `/locations/${id}`,
+      updateLocationDto,options
+    );
   }
-)
-
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
-  const data: locationsControllerUpdateResponse['data'] = body ? JSON.parse(body) : {}
-  return { data, status: res.status, headers: res.headers } as locationsControllerUpdateResponse
-}
 
 
 
-
-export const getLocationsControllerUpdateMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof locationsControllerUpdate>>, TError,{id: string;data: UpdateLocationDto}, TContext>, fetch?: RequestInit}
+export const getLocationsControllerUpdateMutationOptions = <TError = AxiosError<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof locationsControllerUpdate>>, TError,{id: string;data: UpdateLocationDto}, TContext>, axios?: AxiosRequestConfig}
 ): UseMutationOptions<Awaited<ReturnType<typeof locationsControllerUpdate>>, TError,{id: string;data: UpdateLocationDto}, TContext> => {
 
 const mutationKey = ['locationsControllerUpdate'];
-const {mutation: mutationOptions, fetch: fetchOptions} = options ?
+const {mutation: mutationOptions, axios: axiosOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
       : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, fetch: undefined};
+      : {mutation: { mutationKey, }, axios: undefined};
 
 
 
@@ -296,7 +213,7 @@ const {mutation: mutationOptions, fetch: fetchOptions} = options ?
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof locationsControllerUpdate>>, {id: string;data: UpdateLocationDto}> = (props) => {
           const {id,data} = props ?? {};
 
-          return  locationsControllerUpdate(id,data,fetchOptions)
+          return  locationsControllerUpdate(id,data,axiosOptions)
         }
 
 
@@ -308,10 +225,10 @@ const {mutation: mutationOptions, fetch: fetchOptions} = options ?
 
     export type LocationsControllerUpdateMutationResult = NonNullable<Awaited<ReturnType<typeof locationsControllerUpdate>>>
     export type LocationsControllerUpdateMutationBody = UpdateLocationDto
-    export type LocationsControllerUpdateMutationError = unknown
+    export type LocationsControllerUpdateMutationError = AxiosError<unknown>
 
-    export const useLocationsControllerUpdate = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof locationsControllerUpdate>>, TError,{id: string;data: UpdateLocationDto}, TContext>, fetch?: RequestInit}
+    export const useLocationsControllerUpdate = <TError = AxiosError<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof locationsControllerUpdate>>, TError,{id: string;data: UpdateLocationDto}, TContext>, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof locationsControllerUpdate>>,
         TError,
@@ -320,57 +237,28 @@ const {mutation: mutationOptions, fetch: fetchOptions} = options ?
       > => {
       return useMutation(getLocationsControllerUpdateMutationOptions(options), queryClient);
     }
-    export type locationsControllerRemoveResponse200 = {
-  data: LocationDto
-  status: 200
-}
-
-export type locationsControllerRemoveResponseSuccess = (locationsControllerRemoveResponse200) & {
-  headers: Headers;
-};
-;
-
-export type locationsControllerRemoveResponse = (locationsControllerRemoveResponseSuccess)
-
-export const getLocationsControllerRemoveUrl = (id: string,) => {
+    export const locationsControllerRemove = (
+    id: string, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<LocationDto>> => {
 
 
-
-
-  return `/locations/${id}`
-}
-
-export const locationsControllerRemove = async (id: string, options?: RequestInit): Promise<locationsControllerRemoveResponse> => {
-
-  const res = await fetch(getLocationsControllerRemoveUrl(id),
-  {
-    ...options,
-    method: 'DELETE'
-
-
+    return axios.default.delete(
+      `/locations/${id}`,options
+    );
   }
-)
-
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
-  const data: locationsControllerRemoveResponse['data'] = body ? JSON.parse(body) : {}
-  return { data, status: res.status, headers: res.headers } as locationsControllerRemoveResponse
-}
 
 
 
-
-export const getLocationsControllerRemoveMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof locationsControllerRemove>>, TError,{id: string}, TContext>, fetch?: RequestInit}
+export const getLocationsControllerRemoveMutationOptions = <TError = AxiosError<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof locationsControllerRemove>>, TError,{id: string}, TContext>, axios?: AxiosRequestConfig}
 ): UseMutationOptions<Awaited<ReturnType<typeof locationsControllerRemove>>, TError,{id: string}, TContext> => {
 
 const mutationKey = ['locationsControllerRemove'];
-const {mutation: mutationOptions, fetch: fetchOptions} = options ?
+const {mutation: mutationOptions, axios: axiosOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
       : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, fetch: undefined};
+      : {mutation: { mutationKey, }, axios: undefined};
 
 
 
@@ -378,7 +266,7 @@ const {mutation: mutationOptions, fetch: fetchOptions} = options ?
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof locationsControllerRemove>>, {id: string}> = (props) => {
           const {id} = props ?? {};
 
-          return  locationsControllerRemove(id,fetchOptions)
+          return  locationsControllerRemove(id,axiosOptions)
         }
 
 
@@ -390,10 +278,10 @@ const {mutation: mutationOptions, fetch: fetchOptions} = options ?
 
     export type LocationsControllerRemoveMutationResult = NonNullable<Awaited<ReturnType<typeof locationsControllerRemove>>>
 
-    export type LocationsControllerRemoveMutationError = unknown
+    export type LocationsControllerRemoveMutationError = AxiosError<unknown>
 
-    export const useLocationsControllerRemove = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof locationsControllerRemove>>, TError,{id: string}, TContext>, fetch?: RequestInit}
+    export const useLocationsControllerRemove = <TError = AxiosError<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof locationsControllerRemove>>, TError,{id: string}, TContext>, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof locationsControllerRemove>>,
         TError,
