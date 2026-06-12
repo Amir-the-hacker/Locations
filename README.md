@@ -76,7 +76,7 @@ no Show loading and error states with retries
 
 started to have headaches at 19:00. not feeling to good... but i think everything will be ok :).
 
-## trade-offs and assumptions
+## Trade-offs and assumptions
 
 sorry my hand really hurts. i'll let you know later. but at least cleanup on front and back.
 
