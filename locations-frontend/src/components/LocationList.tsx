@@ -31,7 +31,7 @@ export const LocationList = ({
             overflow: 'auto',
             width: '100%',
             bgcolor: 'background.paper',
-            maxHeight: 200,
+            maxHeight: 300,
           }}
         >
           {locations && locations.length > 0 ? (
