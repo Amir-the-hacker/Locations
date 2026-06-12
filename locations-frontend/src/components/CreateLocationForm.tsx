@@ -1,12 +1,13 @@
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
+import Dialog from '@mui/material/Dialog'
+import DialogTitle from '@mui/material/DialogTitle'
+import DialogContent from '@mui/material/DialogContent'
+import DialogActions from '@mui/material/DialogActions'
 import MenuItem from '@mui/material/MenuItem'
 import TextField from '@mui/material/TextField'
-import Typography from '@mui/material/Typography'
 import Stack from '@mui/material/Stack'
-import Paper from '@mui/material/Paper'
 import { LocationsControllerCreateBody } from '../api/endpoints/locations/locations.zod'
 import { useLocationsControllerCreate } from '../api/endpoints/locations/locations'
 import { useQueryClient } from '@tanstack/react-query'
@@ -21,10 +22,11 @@ const CATEGORIES = [
 ] as const
 
 interface CreateLocationFormProps {
+  open: boolean
   onClose: () => void
 }
 
-export const CreateLocationForm = ({ onClose }: CreateLocationFormProps) => {
+export const CreateLocationForm = ({ open, onClose }: CreateLocationFormProps) => {
   const queryClient = useQueryClient()
 
   const {
@@ -60,138 +62,126 @@ export const CreateLocationForm = ({ onClose }: CreateLocationFormProps) => {
   const isBusy = isSubmitting || createMutation.isPending
 
   return (
-    <Paper elevation={2} sx={{ p: 3, width: '100%' }}>
-      <Typography variant="h6" gutterBottom>
-        Create New Location
-      </Typography>
+    <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
+      <DialogTitle>Create New Location</DialogTitle>
 
-      <Box
-        component="form"
-        onSubmit={handleSubmit(onSubmit)}
-        noValidate
-        autoComplete="off"
-      >
-        <Stack spacing={2}>
-          <Controller
-            name="name"
-            control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                label="Name"
-                fullWidth
-                error={Boolean(errors.name)}
-                helperText={errors.name?.message}
-              />
-            )}
-          />
-
-          <Controller
-            name="category"
-            control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                select
-                label="Category"
-                fullWidth
-                error={Boolean(errors.category)}
-                helperText={errors.category?.message}
-              >
-                {CATEGORIES.map((opt) => (
-                  <MenuItem key={opt.value} value={opt.value}>
-                    {opt.label}
-                  </MenuItem>
-                ))}
-              </TextField>
-            )}
-          />
-
-          <Stack direction="row" spacing={2}>
+      <form onSubmit={handleSubmit(onSubmit)} noValidate autoComplete="off">
+        <DialogContent dividers>
+          <Stack spacing={2}>
             <Controller
-              name="coordinates.lon"
+              name="name"
               control={control}
               render={({ field }) => (
                 <TextField
                   {...field}
-                  onChange={(e) => field.onChange(Number(e.target.value))}
-                  label="Longitude"
-                  type="number"
+                  label="Name"
                   fullWidth
-                  slotProps={{
-                    htmlInput: { min: -180, max: 180, step: 'any' },
-                  }}
-                  error={Boolean(errors.coordinates?.lon)}
-                  helperText={errors.coordinates?.lon?.message}
+                  error={Boolean(errors.name)}
+                  helperText={errors.name?.message}
                 />
               )}
             />
 
             <Controller
-              name="coordinates.lat"
+              name="category"
               control={control}
               render={({ field }) => (
                 <TextField
                   {...field}
-                  onChange={(e) => field.onChange(Number(e.target.value))}
-                  label="Latitude"
-                  type="number"
+                  select
+                  label="Category"
                   fullWidth
-                  slotProps={{
-                    htmlInput: { min: -90, max: 90, step: 'any' },
-                  }}
-                  error={Boolean(errors.coordinates?.lat)}
-                  helperText={errors.coordinates?.lat?.message}
+                  error={Boolean(errors.category)}
+                  helperText={errors.category?.message}
+                >
+                  {CATEGORIES.map((opt) => (
+                    <MenuItem key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              )}
+            />
+
+            <Stack direction="row" spacing={2}>
+              <Controller
+                name="coordinates.lon"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    onChange={(e) => field.onChange(Number(e.target.value))}
+                    label="Longitude"
+                    type="number"
+                    fullWidth
+                    slotProps={{
+                      htmlInput: { min: -180, max: 180, step: 'any' },
+                    }}
+                    error={Boolean(errors.coordinates?.lon)}
+                    helperText={errors.coordinates?.lon?.message}
+                  />
+                )}
+              />
+
+              <Controller
+                name="coordinates.lat"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    onChange={(e) => field.onChange(Number(e.target.value))}
+                    label="Latitude"
+                    type="number"
+                    fullWidth
+                    slotProps={{
+                      htmlInput: { min: -90, max: 90, step: 'any' },
+                    }}
+                    error={Boolean(errors.coordinates?.lat)}
+                    helperText={errors.coordinates?.lat?.message}
+                  />
+                )}
+              />
+            </Stack>
+
+            <Controller
+              name="address"
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  label="Address"
+                  fullWidth
+                  error={Boolean(errors.address)}
+                  helperText={errors.address?.message}
+                />
+              )}
+            />
+
+            <Controller
+              name="notes"
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  label="Notes"
+                  fullWidth
+                  multiline
+                  minRows={2}
+                  error={Boolean(errors.notes)}
+                  helperText={errors.notes?.message}
                 />
               )}
             />
           </Stack>
+        </DialogContent>
 
-          <Controller
-            name="address"
-            control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                label="Address"
-                fullWidth
-                error={Boolean(errors.address)}
-                helperText={errors.address?.message}
-              />
-            )}
-          />
-
-          <Controller
-            name="notes"
-            control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                label="Notes"
-                fullWidth
-                multiline
-                minRows={2}
-                error={Boolean(errors.notes)}
-                helperText={errors.notes?.message}
-              />
-            )}
-          />
-
-          <Stack direction="row" spacing={2}>
-            <Button
-              type="submit"
-              variant="contained"
-              disabled={isBusy}
-              fullWidth
-            >
-              Create
-            </Button>
-            <Button variant="outlined" onClick={onClose} fullWidth>
-              Cancel
-            </Button>
-          </Stack>
-        </Stack>
-      </Box>
-    </Paper>
+        <DialogActions>
+          <Button onClick={onClose}>Cancel</Button>
+          <Button type="submit" variant="contained" disabled={isBusy}>
+            Create
+          </Button>
+        </DialogActions>
+      </form>
+    </Dialog>
   )
 }

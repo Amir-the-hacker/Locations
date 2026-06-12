@@ -64,17 +64,16 @@ export const LocationList = ({
           variant="contained"
           startIcon={<AddIcon />}
           fullWidth
-          onClick={() => setShowCreateForm((prev) => !prev)}
+          onClick={() => setShowCreateForm(true)}
         >
-          {showCreateForm ? 'Close' : 'Create New'}
+          Create New
         </Button>
       </Box>
 
-      {showCreateForm && (
-        <Box sx={{ mt: 1 }}>
-          <CreateLocationForm onClose={() => setShowCreateForm(false)} />
-        </Box>
-      )}
+      <CreateLocationForm
+        open={showCreateForm}
+        onClose={() => setShowCreateForm(false)}
+      />
     </Box>
   )
 }
