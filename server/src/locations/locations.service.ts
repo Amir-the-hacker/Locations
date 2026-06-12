@@ -4,6 +4,7 @@ import {
   BadRequestException,
   ServiceUnavailableException,
   HttpException,
+  Logger,
 } from '@nestjs/common';
 import { CreateLocationDto } from './dto/create-location.dto';
 import { UpdateLocationDto } from './dto/update-location.dto';
@@ -13,6 +14,9 @@ import { Location, LocationDocument } from './schemas/location.schema';
 import { LOCATION_CATEGORIES } from './schemas/location.schema';
 import { HttpService } from '@nestjs/axios';
 import { CoordinatesDto } from './dto/coordinates.dto';
+import { firstValueFrom } from 'rxjs';
+import { pointExternalApi } from './dto/pointExternalApi.dto';
+import { AxiosResponse } from 'axios';
 
 @Injectable()
 export class LocationsService {
@@ -21,9 +25,12 @@ export class LocationsService {
     private locationModel: Model<LocationDocument>,
     private readonly httpService: HttpService,
   ) {}
+  private readonly logger = new Logger(LocationsService.name);
 
   async create(createLocationDto: CreateLocationDto): Promise<Location> {
     try {
+      if (!createLocationDto.address) {
+      }
       const createdLocation = new this.locationModel(createLocationDto);
       return await createdLocation.save();
     } catch (error) {
@@ -100,9 +107,21 @@ export class LocationsService {
     }
   }
 
-  async coordinatesToAddress(coordinates: CoordinatesDto) {
-    return this.httpService.get(
-      `https://nominatim.openstreetmap.org/reverse?lat=${coordinates[0]}&lon=${coordinates[1]}&format=json`,
-    );
+  async coordinatesToAddress(coordinates: CoordinatesDto): Promise<string> {
+    try {
+      const { data }: AxiosResponse<pointExternalApi> = await firstValueFrom(
+        this.httpService.get(
+          `https://nominatim.openstreetmap.org/reverse?lat=${coordinates[0]}&lon=${coordinates[1]}&format=json`,
+          { headers: { 'User-Agent': 'NestJS-App' } },
+        ),
+      );
+      if (!data.display_name) {
+        throw new NotFoundException("Couldn't find display_name in response");
+      }
+      return data.display_name;
+    } catch (error) {
+      this.logger.warn("Couldn't get response");
+      throw error;
+    }
   }
 }
