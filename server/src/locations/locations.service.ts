@@ -1,8 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateLocationDto } from './dto/create-location.dto';
 import { UpdateLocationDto } from './dto/update-location.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { isValidObjectId, Model } from 'mongoose';
 import { Location, LocationDocument } from './schemas/location.schema';
 
 @Injectable()
@@ -30,9 +30,15 @@ export class LocationsService {
   }
 
   async remove(id: string) {
+    if (!isValidObjectId(id)) {
+      throw new NotFoundException(`The provided id is invalid`);
+    }
     const deletedLocation = await this.locationModel
       .findByIdAndDelete(id, { new: true })
       .exec();
+    if (!deletedLocation) {
+      throw new NotFoundException(`There is no location with id ${id}`);
+    }
     return deletedLocation;
   }
 }
