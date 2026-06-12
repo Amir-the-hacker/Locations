@@ -30,6 +30,14 @@ export class LocationsService {
   async create(createLocationDto: CreateLocationDto): Promise<Location> {
     try {
       if (!createLocationDto.address) {
+        try {
+          const inferredAddress = await this.coordinatesToAddress(
+            createLocationDto.coordinates,
+          );
+          createLocationDto.address = inferredAddress;
+        } catch (error) {
+          this.logger.warn(`Failed to infer address from coordinates`);
+        }
       }
       const createdLocation = new this.locationModel(createLocationDto);
       return await createdLocation.save();
@@ -109,18 +117,20 @@ export class LocationsService {
 
   async coordinatesToAddress(coordinates: CoordinatesDto): Promise<string> {
     try {
+      this.logger.warn(coordinates);
+
       const { data }: AxiosResponse<pointExternalApi> = await firstValueFrom(
         this.httpService.get(
-          `https://nominatim.openstreetmap.org/reverse?lat=${coordinates[0]}&lon=${coordinates[1]}&format=json`,
+          `https://nominatim.openstreetmap.org/reverse?lat=${coordinates.lat}&lon=${coordinates.lon}&format=json`,
           { headers: { 'User-Agent': 'NestJS-App' } },
         ),
       );
-      if (!data.display_name) {
+      if (!data || !data.display_name) {
         throw new NotFoundException("Couldn't find display_name in response");
       }
       return data.display_name;
     } catch (error) {
-      this.logger.warn("Couldn't get response");
+      this.logger.warn(`Couldn't get response: ${(error as Error).message}`);
       throw error;
     }
   }
