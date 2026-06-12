@@ -27,13 +27,13 @@ export const HomePage = () => {
           </Toolbar>
         </AppBar>
       </Box>
-      <Container sx={{ justifyContent: 'center' }}>
-        <Grid container spacing={3}>
+      <Container sx={{ justifyContent: 'center', mt: 4 }}>
+        <Grid container spacing={3} sx={{ alignItems: 'stretch' }}>
           <Grid size={{ xs: 12, md: 8 }}>
             <LocationMap locations={data?.data} />
           </Grid>
 
-          <Grid size={{ xs: 12, md: 4 }}>
+          <Grid size={{ xs: 12, md: 4 }} sx={{ display: 'flex' }}>
             <LocationList locations={data?.data} />
           </Grid>
         </Grid>

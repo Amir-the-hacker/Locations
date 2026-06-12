@@ -1,4 +1,3 @@
-import Box from '@mui/material/Box'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
@@ -14,17 +13,25 @@ interface LocationListProps {
 
 export const LocationList = ({ locations }: LocationListProps) => {
   return (
-    <Box sx={{ width: '100%', bgcolor: 'gray' }}>
+    <>
+      {' '}
       <nav aria-label="main mailbox folders">
-        <List sx={{ overflow: 'auto', maxHeight: 100 }}>
+        <List
+          sx={{
+            overflow: 'auto',
+            width: '100%',
+            bgcolor: 'background.paper',
+            maxHeight: 200,
+          }}
+        >
           {locations ? (
             locations.map((location) => (
               <ListItem disablePadding>
-                <ListItemButton key={location.id}>
+                <ListItemButton key={location.id} onClick={}>
                   <ListItemIcon></ListItemIcon>
                   <ListItemText
                     primary={location.name}
-                    secondary={location.address}
+                    secondary={location.address ?? 'no address available'}
                   />
                 </ListItemButton>{' '}
               </ListItem>
@@ -40,6 +47,6 @@ export const LocationList = ({ locations }: LocationListProps) => {
         </List>
       </nav>
       <Divider />
-    </Box>
+    </>
   )
 }
