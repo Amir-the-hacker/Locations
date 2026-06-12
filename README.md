@@ -89,3 +89,94 @@ sorry my hand really hurts. i'll let you know later. but at least cleanup on fro
 ![1781284096168](image/README/1781284096168.png)
 
 ![1781284767137](image/README/1781284767137.png)
+
+## Notes i wrote during development
+
+sources:
+
+NestJS Course for Beginners - Build Server-Side Applications
+
+- https://www.youtube.com/watch?v=21_I-12f5JE
+
+docs - https://docs.nestjs.com
+
+mongodb docker - https://hub.docker.com/_/mongo
+connect volume - https://stackoverflow.com/questions/34390220/how-to-mount-external-volume-for-mongodb-using-docker-compose-and-docker-machine
+another conf exemple:https://www.mongodb.com/docs/atlas/cli/current/atlas-cli-docker-compose/
+
+connect mongo to nestjs, configuration - https://docs.nestjs.com/techniques/mongodb
+
+connection settings - https://stackoverflow.com/questions/72460269/how-to-read-a-env-file-on-mongoosemodule-in-nestjs
+
+uri assembly - https://mongoosejs.com/docs/connections.html
+
+openapi spec basic - https://docs.nestjs.com/openapi/introduction#bootstrap
+use nestjs-zod for openapi spec benefits - https://www.npmjs.com/package/nestjs-zod?ref=amarjanica.com
+
+remove ts error in sceama - https://stackoverflow.com/questions/49699067/property-has-no-initializer-and-is-not-definitely-assigned-in-the-construc
+
+HydratedDocument for type with methods - https://mongoosejs.com/docs/typescript.html
+
+point type mongo for cordinante - https://www.mongodb.com/docs/manual/reference/geojson/#std-label-geospatial-indexes-store-geojson (not used at the end to messy)
+
+implementaiton in moongoos - https://mongoosejs.com/docs/geojson.html (not used at the end to messy)
+
+integration with moongoos for service queries - https://docs.nestjs.com/techniques/database#models
+
+update with mongoose - https://mongoosejs.com/docs/api/model.html#Model.findByIdAndUpdate()
+
+remove \_\_v from mongo schema - https://stackoverflow.com/questions/13699784/mongoose-v-property-hide
+
+z.date() to json issue - https://github.com/nestjs/swagger/issues/3672
+zod lengths validations - https://tecktol.com/zod-length-constraints
+
+response types for swagger - https://docs.nestjs.com/openapi/operations#responses
+
+improve error handeling - https://zod.dev/error-customization
+
+validate object id with nongoose - https://mongoosejs.com/docs/api/mongoose.html#Mongoose.prototype.isValidObjectId() - no time for creating pipe and dint find exsisting one
+
+pagination - https://stackoverflow.com/questions/12542620/how-to-make-pagination-with-mongoose
+
+zod sting to int iisue -https://github.com/colinhacks/zod/discussions/330
+
+test spec issue - https://stackoverflow.com/questions/54139158/cannot-find-name-describe-do-you-need-to-install-type-definitions-for-a-test?page=1&tab=scoredesc#tab-top
+
+call externalAPI - https://docs.nestjs.com/techniques/http-module#installation
+https://docs.nestjs.com/techniques/http-module#full-example
+
+coords to adress endpint - https://stackoverflow.com/questions/66506483/how-to-get-the-address-from-coordinates-with-open-street-maps-api
+
+manual - https://nominatim.org/release-docs/latest/api/Reverse/
+
+cashing for address: https://docs.nestjs.com/techniques/caching#in-memory-cache
+
+convert json to dto of external api - https://qaribhaider.github.io/nestjs-json-to-response-dto/
+
+basic logger - https://docs.nestjs.com/techniques/logger#using-the-logger-for-application-logging
+
+cors - https://github.com/expressjs/cors (redirect form nest docs)
+
+thots:
+
+didnt use filters. i know they exsist but dont have experianse with them... so cathcing errors in service
+external api worth more points. go for it instead of tests
+didnt find normal sceama for response from external api. used my preservation from reesponse
+on 18:30 sharp pain in pinky. slows me down
+
+stoped at 14:30 for lunch
+continue at 16:30 didnt feel so well
+************************************************\_\_\_************************************************front:
+
+recomended by openlayers - https://openlayers.org/3rd-party/ -> https://github.com/allenhwkim/react-openlayers - not used at the end
+
+orval - https://orval.dev/docs/guides/client-with-zod/
+react query basic app.tsx conf - https://dev.to/thwani47/building-a-crud-app-with-react-query-typescript-and-axios-2d0j
+
+baseline css desine - https://mui.com/material-ui/react-css-baseline/
+conf pritter -https://prettier.io/docs/configuration
+
+basic map - https://openlayers.org/en/latest/examples/accessible.html
+
+taged map - https://openlayers.org/en/latest/examples/icon-color.html
+list -https://mui.com/material-ui/react-list/
