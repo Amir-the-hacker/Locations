@@ -78,7 +78,7 @@ started to have headaches at 19:00. not feeling to good... but i think everythin
 
 ## trade-offs and assumptions
 
-sorry my hand really hurts. i'll let you know later.
+sorry my hand really hurts. i'll let you know later. but at least cleanup on front and back.
 
 ## images:
 
