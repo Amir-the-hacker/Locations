@@ -1,15 +1,24 @@
 import { Injectable } from '@nestjs/common';
 import { CreateLocationDto } from './dto/create-location.dto';
 import { UpdateLocationDto } from './dto/update-location.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { Location, LocationDocument } from './schemas/location.schema';
 
 @Injectable()
 export class LocationsService {
-  create(createLocationDto: CreateLocationDto) {
-    return 'This action adds a new location';
+  constructor(
+    @InjectModel(Location.name)
+    private locationModel: Model<LocationDocument>,
+  ) {}
+
+  async create(createLocationDto: CreateLocationDto): Promise<Location> {
+    const createdLocation = new this.locationModel(createLocationDto);
+    return await createdLocation.save();
   }
 
-  findAll() {
-    return `This action returns all locations`;
+  async findAll(): Promise<Location[]> {
+    return this.locationModel.find().exec();
   }
 
   findOne(id: number) {
