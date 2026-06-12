@@ -1,4 +1,4 @@
-:root {
+/* :root {
   --text: #6b6375;
   --text-h: #08060d;
   --bg: #fff;
@@ -108,29 +108,4 @@ code {
   line-height: 135%;
   padding: 4px 8px;
   background: var(--code-bg);
-}
-
-
-      .map {
-        width: 100%;
-        height: 400px;
-      }
-      a.skiplink {
-        position: absolute;
-        clip: rect(1px, 1px, 1px, 1px);
-        padding: 0;
-        border: 0;
-        height: 1px;
-        width: 1px;
-        overflow: hidden;
-      }
-      a.skiplink:focus {
-        clip: auto;
-        height: auto;
-        width: auto;
-        background-color: #fff;
-        padding: 0.3em;
-      }
-      #map:focus {
-        outline: #4A74A8 solid 0.15em;
-      }
+} */

@@ -31,14 +31,10 @@ export const HomePage = () => {
         <Typography variant="h5" sx={{}}>
           test
         </Typography>
-        {/*
-    {data?.data.map((location) => (
-      <Typography key={location.id}>{location.address}</Typography>
-    ))} */}
 
         <Grid>
-          <LocationMap data={data} />
-          <LocationList data={data} />
+          <LocationMap locations={data?.data} />
+          {/* <LocationList data={data} /> */}
         </Grid>
       </Container>
     </>
