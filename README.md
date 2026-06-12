@@ -4,6 +4,14 @@ organize your locations on a minimalistic map!
 
 ## Setup and run instructions
 
+# Setup
+
+install latest version of docker
+
+# run the mongodb server:
+
+docker compose up -d
+
 ## Test instructions
 
 ## Agenda
