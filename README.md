@@ -2,6 +2,10 @@
 
 organize your locations on a minimalistic map!
 
+# Important note!
+
+While I am comfortable with React and TanStack Query, many of the other technologies used in this project are quite new to me. I've done my best to implement them, and I would appreciate it if you could keep this in mind during the review. I'm very open to any feedback on how I can improve.
+
 # Setup and run instructions
 
 ### 1. Database
@@ -59,3 +63,5 @@ no tests
 no clicking on map for adding new location. only manually.
 no optimistic update for create/delete
 no Show loading and error states with retries
+
+started to have headaches at 19:00. not feeling to good...
