@@ -27,11 +27,7 @@ export const HomePage = () => {
           </Toolbar>
         </AppBar>
       </Box>
-      <Container sx={{ mt: 4, justifyContent: 'center' }}>
-        <Typography variant="h5" sx={{}}>
-          test
-        </Typography>
-
+      <Container sx={{ justifyContent: 'center' }}>
         <Grid container spacing={3}>
           <Grid size={{ xs: 12, md: 8 }}>
             <LocationMap locations={data?.data} />

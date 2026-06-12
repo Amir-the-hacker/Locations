@@ -16,7 +16,7 @@ export const LocationList = ({ locations }: LocationListProps) => {
   return (
     <Box sx={{ width: '100%', bgcolor: 'gray' }}>
       <nav aria-label="main mailbox folders">
-        <List>
+        <List sx={{ overflow: 'auto', maxHeight: 100 }}>
           {locations ? (
             locations.map((location) => (
               <ListItem disablePadding>
