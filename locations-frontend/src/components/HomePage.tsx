@@ -32,9 +32,14 @@ export const HomePage = () => {
           test
         </Typography>
 
-        <Grid>
-          <LocationMap locations={data?.data} />
-          {/* <LocationList data={data} /> */}
+        <Grid container spacing={3}>
+          <Grid size={{ xs: 12, md: 8 }}>
+            <LocationMap locations={data?.data} />
+          </Grid>
+
+          <Grid size={{ xs: 12, md: 4 }}>
+            <LocationList />
+          </Grid>
         </Grid>
       </Container>
     </>
