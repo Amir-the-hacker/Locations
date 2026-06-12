@@ -2,19 +2,31 @@
 
 organize your locations on a minimalistic map!
 
-## Setup and run instructions
+# Setup and run instructions
 
-# Setup
+### 1. Database
 
-install latest version of docker
-
-# run the mongodb server:
+Install the latest version of Docker on your computer. Run the MongoDB server from the root directory:
 
 docker compose up -d
 
-## Test instructions
+### 2. Backend
 
-## Agenda
+Navigate to the server directory, install dependencies, and start the development server:
+
+cd server
+npm i
+npm run start:dev
+
+### 3. Frontend
+
+Navigate to the locations-frontend directory, install dependencies, and start the application:
+
+cd locations-frontend
+npm i
+npm run dev
+
+## Agenda (before starting to work on project)
 
 After reading the assignment, it seems 8 hours aren't enough, especially since my Nest.js experience is close to none (working daily with FastAPI). That's gonna be a problem worth considering.
 
@@ -35,3 +47,15 @@ Cache results and rate limits
 Clicking a marker highlights the list item and vice versa
 
 ## Time spent and cut corners
+
+After spending about seven hours and 30 minutes, my pinky finger started hurting unusually. The pain began at 18:50 so i had to stop writing (hand over to AI at form parts **only**. because of the pain and luck of time)
+
+cut corners:
+
+no cache
+basic error handling for the external API
+no Address → Coordinates because it's mandatory on creation of a new location
+no tests
+no clicking on map for adding new location. only manually.
+no optimistic update for create/delete
+no Show loading and error states with retries
