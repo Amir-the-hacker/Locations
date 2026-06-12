@@ -1,11 +1,23 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 
-export const LOCATION_CATEGORIES = ['office', 'store', 'landmark'];
+export const LOCATION_CATEGORIES = ['office', 'store', 'landmark'] as const;
 export type LocationDocument = HydratedDocument<Location>;
 
 @Schema({
   timestamps: true,
+  toObject: {
+    transform: (doc, ret) => {
+      const { __v, _id, ...cleanRet } = ret;
+      return { ...cleanRet, id: _id };
+    },
+  },
+  toJSON: {
+    transform: (doc, ret) => {
+      const { __v, _id, ...cleanRet } = ret;
+      return { ...cleanRet, id: _id };
+    },
+  },
 })
 export class Location {
   @Prop({ type: String, required: true, index: true })
@@ -24,6 +36,7 @@ export class Location {
       lon: { type: Number, required: true },
       lat: { type: Number, required: true },
     },
+    _id: false,
   })
   coordinates: {
     lon: number;
