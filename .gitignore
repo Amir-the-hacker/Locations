@@ -1,0 +1,20 @@
+# Dependency folders npm
+node_modules/
+/client/node_modules/
+/server/node_modules/
+
+# Local environment variables
+*.env
+
+# Production builds (Compiled output folders)
+/client/dist/
+/client/build/
+/server/dist/
+/server/build/
+
+# Editor settings
+.vscode/
+
+# Logs and store
+*.log
+.DS_Store
